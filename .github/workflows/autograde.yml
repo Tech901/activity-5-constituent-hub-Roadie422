@@ -1,0 +1,607 @@
+name: Autograding
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  AZURE_AI_LANGUAGE_ENDPOINT: ${{ secrets.AZURE_AI_LANGUAGE_ENDPOINT }}
+  AZURE_AI_LANGUAGE_KEY: ${{ secrets.AZURE_AI_LANGUAGE_KEY }}
+  AZURE_TRANSLATOR_KEY: ${{ secrets.AZURE_TRANSLATOR_KEY }}
+  AZURE_TRANSLATOR_REGION: ${{ secrets.AZURE_TRANSLATOR_REGION }}
+  CLU_PROJECT_NAME: ${{ secrets.CLU_PROJECT_NAME }}
+  CLU_DEPLOYMENT_NAME: ${{ secrets.CLU_DEPLOYMENT_NAME }}
+  STUDENT_CORPUS_SEED: ${{ github.actor }}
+
+jobs:
+  grade:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run student code
+        run: python app/main.py
+        continue-on-error: true
+
+      - name: Clone autograder
+        uses: actions/checkout@v4
+        with:
+          repository: Tech901/ai102-autograder-tests
+          token: ${{ secrets.AUTOGRADER_PAT }}
+          path: .autograder
+
+      # --- 56 tests, 100 points ---
+      - name: "test_canary_pii_not_empty"
+        id: test1
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_canary_pii_not_empty"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_canary_pii_not_empty -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_canary_sentiment_not_empty"
+        id: test2
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_canary_sentiment_not_empty"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_canary_sentiment_not_empty -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_canary_translation_not_empty"
+        id: test3
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_canary_translation_not_empty"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_canary_translation_not_empty -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_canary_intent_not_empty"
+        id: test4
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_canary_intent_not_empty"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_canary_intent_not_empty -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_task_name"
+        id: test5
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_task_name"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_task_name -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_status_not_error"
+        id: test6
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_status_not_error"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_status_not_error -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_all_output_keys"
+        id: test7
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_all_output_keys"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_all_output_keys -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_metadata_complete"
+        id: test8
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_metadata_complete"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_metadata_complete -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_pipeline_summary_structure"
+        id: test9
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_pipeline_summary_structure"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_pipeline_summary_structure -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_pii_redaction_removes_hidden_ssn"
+        id: test10
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_pii_redaction_removes_hidden_ssn"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_pii_redaction_removes_hidden_ssn -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_pii_redaction_removes_hidden_names"
+        id: test11
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_pii_redaction_removes_hidden_names"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_pii_redaction_removes_hidden_names -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_pii_detects_person_category"
+        id: test12
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_pii_detects_person_category"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_pii_detects_person_category -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_pii_no_false_positive_on_clean"
+        id: test13
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_pii_no_false_positive_on_clean"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_pii_no_false_positive_on_clean -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_pii_confidence_reasonable"
+        id: test14
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_pii_confidence_reasonable"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_pii_confidence_reasonable -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_sentiment_negative_complaint"
+        id: test15
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_sentiment_negative_complaint"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_sentiment_negative_complaint -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_sentiment_positive_exists"
+        id: test16
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_sentiment_positive_exists"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_sentiment_positive_exists -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_sentiment_confidence_sum"
+        id: test17
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_sentiment_confidence_sum"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_sentiment_confidence_sum -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_sentiment_key_phrases_domain"
+        id: test18
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_sentiment_key_phrases_domain"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_sentiment_key_phrases_domain -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_translation_non_english_detected"
+        id: test19
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_translation_non_english_detected"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_translation_non_english_detected -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_translation_english_not_translated"
+        id: test20
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_translation_english_not_translated"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_translation_english_not_translated -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_translation_output_english"
+        id: test21
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_translation_output_english"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_translation_output_english -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_translation_detection_confidence"
+        id: test22
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_translation_detection_confidence"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_translation_detection_confidence -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_intent_report_issue"
+        id: test23
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_intent_report_issue"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_intent_report_issue -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_intent_check_status"
+        id: test24
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_intent_check_status"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_intent_check_status -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_intent_ask_question"
+        id: test25
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_intent_ask_question"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_intent_ask_question -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_intent_confidence_range"
+        id: test26
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_intent_confidence_range"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_intent_confidence_range -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_empty_text_handling"
+        id: test27
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_empty_text_handling"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_empty_text_handling -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_long_text_handling"
+        id: test28
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_long_text_handling"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_long_text_handling -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_english_no_translation"
+        id: test29
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_english_no_translation"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_english_no_translation -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_ambiguous_intent"
+        id: test30
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_ambiguous_intent"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_ambiguous_intent -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_already_redacted_text"
+        id: test31
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_already_redacted_text"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_already_redacted_text -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_partial_pipeline_produces_result"
+        id: test32
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_partial_pipeline_produces_result"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_partial_pipeline_produces_result -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_import_detect_and_redact_pii"
+        id: test33
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_import_detect_and_redact_pii"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_import_detect_and_redact_pii -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_import_analyze_sentiment_and_phrases"
+        id: test34
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_import_analyze_sentiment_and_phrases"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_import_analyze_sentiment_and_phrases -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_import_detect_and_translate"
+        id: test35
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_import_detect_and_translate"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_import_detect_and_translate -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_import_recognize_intent"
+        id: test36
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_import_recognize_intent"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_import_recognize_intent -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_live_pii_detection"
+        id: test37
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_live_pii_detection"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_live_pii_detection -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_live_sentiment"
+        id: test38
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_live_sentiment"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_live_sentiment -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_live_translation"
+        id: test39
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_live_translation"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_live_translation -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_live_intent_report"
+        id: test40
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_live_intent_report"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_live_intent_report -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_live_intent_question"
+        id: test41
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_live_intent_question"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_live_intent_question -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_no_hardcoded_keys_all_files"
+        id: test42
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_no_hardcoded_keys_all_files"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_no_hardcoded_keys_all_files -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_no_endpoint_urls_in_source"
+        id: test43
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_no_endpoint_urls_in_source"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_no_endpoint_urls_in_source -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_pii_not_leaked_in_result"
+        id: test44
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_pii_not_leaked_in_result"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_pii_not_leaked_in_result -v --tb=short"
+          timeout: "5"
+          max-score: "2"
+
+      - name: "test_pipeline_ordering_pii_first"
+        id: test45
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_pipeline_ordering_pii_first"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_pipeline_ordering_pii_first -v --tb=short"
+          timeout: "5"
+          max-score: "1"
+
+      - name: "test_pii_not_leaked_in_translation"
+        id: test46
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_pii_not_leaked_in_translation"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_pii_not_leaked_in_translation -v --tb=short"
+          timeout: "5"
+          max-score: "1"
+
+      - name: "test_canary_intent_implementation"
+        id: test47
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_canary_intent_implementation"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_canary_intent_implementation -v --tb=short"
+          timeout: "5"
+          max-score: "1"
+
+      - name: "test_eval_pii_detection"
+        id: test48
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_eval_pii_detection"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_eval_pii_detection -v --tb=short"
+          timeout: "5"
+          max-score: "1"
+
+      - name: "test_eval_sentiment_analysis"
+        id: test49
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_eval_sentiment_analysis"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_eval_sentiment_analysis -v --tb=short"
+          timeout: "5"
+          max-score: "1"
+
+      - name: "test_eval_language_detection"
+        id: test50
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_eval_language_detection"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_eval_language_detection -v --tb=short"
+          timeout: "5"
+          max-score: "1"
+
+      - name: "test_eval_intent_recognition"
+        id: test51
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_eval_intent_recognition"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_eval_intent_recognition -v --tb=short"
+          timeout: "5"
+          max-score: "1"
+
+      - name: "test_lazy_init_pattern"
+        id: test52
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_lazy_init_pattern"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::test_lazy_init_pattern -v --tb=short"
+          timeout: "5"
+          max-score: "1"
+
+      - name: "TestCLUEnforcement::test_clu_returns_entities"
+        id: test53
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestCLUEnforcement::test_clu_returns_entities"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::TestCLUEnforcement::test_clu_returns_entities -v --tb=short"
+          timeout: "5"
+          max-score: "1"
+
+      - name: "TestCLUEnforcement::test_clu_extracts_location"
+        id: test54
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestCLUEnforcement::test_clu_extracts_location"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::TestCLUEnforcement::test_clu_extracts_location -v --tb=short"
+          timeout: "5"
+          max-score: "1"
+
+      - name: "TestCLUEnforcement::test_clu_confidence_above_threshold"
+        id: test55
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestCLUEnforcement::test_clu_confidence_above_threshold"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::TestCLUEnforcement::test_clu_confidence_above_threshold -v --tb=short"
+          timeout: "5"
+          max-score: "1"
+
+      - name: "TestCLUEnforcement::test_clu_handles_ambiguous_input"
+        id: test56
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "TestCLUEnforcement::test_clu_handles_ambiguous_input"
+          command: "python -m pytest .autograder/activity05-constituent-hub/test_hidden.py::TestCLUEnforcement::test_clu_handles_ambiguous_input -v --tb=short"
+          timeout: "5"
+          max-score: "1"
+
+      - name: Autograding Reporter
+        uses: classroom-resources/autograding-grading-reporter@v1
+        continue-on-error: true
+        env:
+          TEST1_RESULTS: "${{ steps.test1.outputs.result }}"
+          TEST2_RESULTS: "${{ steps.test2.outputs.result }}"
+          TEST3_RESULTS: "${{ steps.test3.outputs.result }}"
+          TEST4_RESULTS: "${{ steps.test4.outputs.result }}"
+          TEST5_RESULTS: "${{ steps.test5.outputs.result }}"
+          TEST6_RESULTS: "${{ steps.test6.outputs.result }}"
+          TEST7_RESULTS: "${{ steps.test7.outputs.result }}"
+          TEST8_RESULTS: "${{ steps.test8.outputs.result }}"
+          TEST9_RESULTS: "${{ steps.test9.outputs.result }}"
+          TEST10_RESULTS: "${{ steps.test10.outputs.result }}"
+          TEST11_RESULTS: "${{ steps.test11.outputs.result }}"
+          TEST12_RESULTS: "${{ steps.test12.outputs.result }}"
+          TEST13_RESULTS: "${{ steps.test13.outputs.result }}"
+          TEST14_RESULTS: "${{ steps.test14.outputs.result }}"
+          TEST15_RESULTS: "${{ steps.test15.outputs.result }}"
+          TEST16_RESULTS: "${{ steps.test16.outputs.result }}"
+          TEST17_RESULTS: "${{ steps.test17.outputs.result }}"
+          TEST18_RESULTS: "${{ steps.test18.outputs.result }}"
+          TEST19_RESULTS: "${{ steps.test19.outputs.result }}"
+          TEST20_RESULTS: "${{ steps.test20.outputs.result }}"
+          TEST21_RESULTS: "${{ steps.test21.outputs.result }}"
+          TEST22_RESULTS: "${{ steps.test22.outputs.result }}"
+          TEST23_RESULTS: "${{ steps.test23.outputs.result }}"
+          TEST24_RESULTS: "${{ steps.test24.outputs.result }}"
+          TEST25_RESULTS: "${{ steps.test25.outputs.result }}"
+          TEST26_RESULTS: "${{ steps.test26.outputs.result }}"
+          TEST27_RESULTS: "${{ steps.test27.outputs.result }}"
+          TEST28_RESULTS: "${{ steps.test28.outputs.result }}"
+          TEST29_RESULTS: "${{ steps.test29.outputs.result }}"
+          TEST30_RESULTS: "${{ steps.test30.outputs.result }}"
+          TEST31_RESULTS: "${{ steps.test31.outputs.result }}"
+          TEST32_RESULTS: "${{ steps.test32.outputs.result }}"
+          TEST33_RESULTS: "${{ steps.test33.outputs.result }}"
+          TEST34_RESULTS: "${{ steps.test34.outputs.result }}"
+          TEST35_RESULTS: "${{ steps.test35.outputs.result }}"
+          TEST36_RESULTS: "${{ steps.test36.outputs.result }}"
+          TEST37_RESULTS: "${{ steps.test37.outputs.result }}"
+          TEST38_RESULTS: "${{ steps.test38.outputs.result }}"
+          TEST39_RESULTS: "${{ steps.test39.outputs.result }}"
+          TEST40_RESULTS: "${{ steps.test40.outputs.result }}"
+          TEST41_RESULTS: "${{ steps.test41.outputs.result }}"
+          TEST42_RESULTS: "${{ steps.test42.outputs.result }}"
+          TEST43_RESULTS: "${{ steps.test43.outputs.result }}"
+          TEST44_RESULTS: "${{ steps.test44.outputs.result }}"
+          TEST45_RESULTS: "${{ steps.test45.outputs.result }}"
+          TEST46_RESULTS: "${{ steps.test46.outputs.result }}"
+          TEST47_RESULTS: "${{ steps.test47.outputs.result }}"
+          TEST48_RESULTS: "${{ steps.test48.outputs.result }}"
+          TEST49_RESULTS: "${{ steps.test49.outputs.result }}"
+          TEST50_RESULTS: "${{ steps.test50.outputs.result }}"
+          TEST51_RESULTS: "${{ steps.test51.outputs.result }}"
+          TEST52_RESULTS: "${{ steps.test52.outputs.result }}"
+          TEST53_RESULTS: "${{ steps.test53.outputs.result }}"
+          TEST54_RESULTS: "${{ steps.test54.outputs.result }}"
+          TEST55_RESULTS: "${{ steps.test55.outputs.result }}"
+          TEST56_RESULTS: "${{ steps.test56.outputs.result }}"
+        with:
+          runners: test1,test2,test3,test4,test5,test6,test7,test8,test9,test10,test11,test12,test13,test14,test15,test16,test17,test18,test19,test20,test21,test22,test23,test24,test25,test26,test27,test28,test29,test30,test31,test32,test33,test34,test35,test36,test37,test38,test39,test40,test41,test42,test43,test44,test45,test46,test47,test48,test49,test50,test51,test52,test53,test54,test55,test56

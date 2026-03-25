@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 310">
+  <title>Constituent Hub Pipeline</title>
+  <desc>A six-stage NLP pipeline showing citizen complaint processing: input text flows through PII detection and redaction, sentiment analysis and key phrase extraction, language detection and translation, and intent classification via CLU, producing a result.json output.</desc>
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0E0E0E"/>
+      <stop offset="100%" stop-color="#080808"/>
+    </linearGradient>
+    <linearGradient id="boxGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1E1E1E"/>
+      <stop offset="100%" stop-color="#141414"/>
+    </linearGradient>
+    <linearGradient id="amberBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FFBF3B"/>
+      <stop offset="100%" stop-color="#E5A530"/>
+    </linearGradient>
+    <linearGradient id="blueBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2D5A94"/>
+      <stop offset="100%" stop-color="#1E3F6B"/>
+    </linearGradient>
+    <linearGradient id="greenBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8DC63F"/>
+      <stop offset="100%" stop-color="#6FA832"/>
+    </linearGradient>
+    <linearGradient id="purpleBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#9B59B6"/>
+      <stop offset="100%" stop-color="#7D4792"/>
+    </linearGradient>
+    <linearGradient id="underlineGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FFBF3B"/>
+      <stop offset="100%" stop-color="#E5A530"/>
+    </linearGradient>
+    <linearGradient id="arrowGradV" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2D5A94"/>
+      <stop offset="100%" stop-color="#1E3F6B"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+    <marker id="arrowAmber" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#FFBF3B"/>
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#2D5A94"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#8DC63F"/>
+    </marker>
+    <marker id="arrowPurple" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#9B59B6"/>
+    </marker>
+    <marker id="arrowBlueDown" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#2D5A94"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="310" fill="url(#bgGrad)" rx="6"/>
+
+  <!-- Title -->
+  <text x="450" y="32" text-anchor="middle" font-family="Syne, Calibri, sans-serif" font-size="18" font-weight="bold" fill="#FAFAFA">Constituent Hub Pipeline</text>
+  <rect x="345" y="37" width="210" height="3" rx="1.5" fill="url(#underlineGrad)"/>
+
+  <!-- ==================== ROW 1 (y=65): Input → Step 1 → Step 2 ==================== -->
+
+  <!-- Node 1: Citizen Complaint (amber, input) -->
+  <g filter="url(#shadow)">
+    <rect x="30" y="65" width="140" height="68" rx="5" fill="url(#boxGrad)" stroke="#333" stroke-width="1"/>
+    <rect x="30" y="65" width="4" height="68" rx="2" fill="url(#amberBar)"/>
+  </g>
+  <text x="100" y="90" text-anchor="middle" font-family="Syne, Calibri, sans-serif" font-size="11" font-weight="bold" fill="#FFBF3B">Citizen Complaint</text>
+  <text x="100" y="107" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#CCC">complaints.json</text>
+  <text x="100" y="122" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="8" fill="#888">8 Memphis 311 reports</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="175" y1="99" x2="228" y2="99" stroke="#FFBF3B" stroke-width="1.5" marker-end="url(#arrowAmber)"/>
+
+  <!-- Node 2: Step 1 - PII Detection (blue) -->
+  <g filter="url(#shadow)">
+    <rect x="235" y="65" width="180" height="68" rx="5" fill="url(#boxGrad)" stroke="#333" stroke-width="1"/>
+    <rect x="235" y="65" width="4" height="68" rx="2" fill="url(#blueBar)"/>
+  </g>
+  <text x="325" y="86" text-anchor="middle" font-family="Syne, Calibri, sans-serif" font-size="11" font-weight="bold" fill="#2D5A94">Step 1: PII Detection</text>
+  <text x="325" y="103" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#CCC">Detect &amp; redact names,</text>
+  <text x="325" y="116" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#CCC">SSNs, addresses, emails</text>
+  <text x="325" y="130" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="8" fill="#4A90D9">Azure AI Language</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="420" y1="99" x2="473" y2="99" stroke="#2D5A94" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+  <text x="447" y="91" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="8" font-style="italic" fill="#888">redacted</text>
+
+  <!-- Node 3: Step 2 - Sentiment (blue) -->
+  <g filter="url(#shadow)">
+    <rect x="480" y="65" width="180" height="68" rx="5" fill="url(#boxGrad)" stroke="#333" stroke-width="1"/>
+    <rect x="480" y="65" width="4" height="68" rx="2" fill="url(#blueBar)"/>
+  </g>
+  <text x="570" y="86" text-anchor="middle" font-family="Syne, Calibri, sans-serif" font-size="11" font-weight="bold" fill="#2D5A94">Step 2: Sentiment</text>
+  <text x="570" y="103" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#CCC">Tone analysis +</text>
+  <text x="570" y="116" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#CCC">key phrase extraction</text>
+  <text x="570" y="130" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="8" fill="#4A90D9">Azure AI Language</text>
+
+  <!-- ==================== VERTICAL CONNECTOR (Row 1 → Row 2) ==================== -->
+
+  <!-- Arrow from Step 2 down-right to Step 3 -->
+  <path d="M 660 115 L 700 115 L 700 195 L 660 195" fill="none" stroke="#2D5A94" stroke-width="1.5" marker-end="url(#arrowBlueDown)"/>
+
+  <!-- ==================== ROW 2 (y=175): Step 3 → Step 4 → Output ==================== -->
+
+  <!-- Node 4: Step 3 - Translation (purple, uses two services) -->
+  <g filter="url(#shadow)">
+    <rect x="480" y="175" width="180" height="68" rx="5" fill="url(#boxGrad)" stroke="#333" stroke-width="1"/>
+    <rect x="480" y="175" width="4" height="68" rx="2" fill="url(#purpleBar)"/>
+  </g>
+  <text x="570" y="196" text-anchor="middle" font-family="Syne, Calibri, sans-serif" font-size="11" font-weight="bold" fill="#9B59B6">Step 3: Translation</text>
+  <text x="570" y="213" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#CCC">Detect language +</text>
+  <text x="570" y="226" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#CCC">translate to English</text>
+  <text x="570" y="240" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="8" fill="#9B7FC0">AI Language + Translator</text>
+
+  <!-- Arrow Step 3 → Step 4 -->
+  <line x1="480" y1="209" x2="420" y2="209" stroke="#9B59B6" stroke-width="1.5" marker-end="url(#arrowPurple)"/>
+  <text x="450" y="201" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="8" font-style="italic" fill="#888">English</text>
+
+  <!-- Node 5: Step 4 - Intent/CLU (blue) -->
+  <g filter="url(#shadow)">
+    <rect x="235" y="175" width="180" height="68" rx="5" fill="url(#boxGrad)" stroke="#333" stroke-width="1"/>
+    <rect x="235" y="175" width="4" height="68" rx="2" fill="url(#blueBar)"/>
+  </g>
+  <text x="325" y="196" text-anchor="middle" font-family="Syne, Calibri, sans-serif" font-size="11" font-weight="bold" fill="#2D5A94">Step 4: Intent (CLU)</text>
+  <text x="325" y="213" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#CCC">Classify: report-issue,</text>
+  <text x="325" y="226" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#CCC">check-status, ask-question</text>
+  <text x="325" y="240" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="8" fill="#4A90D9">Azure CLU</text>
+
+  <!-- Arrow Step 4 → Output -->
+  <line x1="235" y1="209" x2="175" y2="209" stroke="#8DC63F" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <!-- Node 6: result.json (green, output) -->
+  <g filter="url(#shadow)">
+    <rect x="30" y="175" width="140" height="68" rx="5" fill="url(#boxGrad)" stroke="#333" stroke-width="1"/>
+    <rect x="30" y="175" width="4" height="68" rx="2" fill="url(#greenBar)"/>
+  </g>
+  <text x="100" y="200" text-anchor="middle" font-family="Syne, Calibri, sans-serif" font-size="11" font-weight="bold" fill="#8DC63F">result.json</text>
+  <text x="100" y="217" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#CCC">PII + Sentiment +</text>
+  <text x="100" y="230" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#CCC">Translation + Intent</text>
+  <text x="100" y="243" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="8" fill="#6FA832">pipeline_summary</text>
+
+  <!-- ==================== Legend ==================== -->
+  <text x="450" y="275" text-anchor="middle" font-family="Source Sans 3, Calibri, sans-serif" font-size="10" fill="#999">PII Redaction → Sentiment Analysis → Language Translation → Intent Classification</text>
+
+  <!-- Service color legend -->
+  <rect x="210" y="285" width="10" height="10" rx="2" fill="#2D5A94"/>
+  <text x="225" y="294" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#888">Azure AI Language</text>
+  <rect x="360" y="285" width="10" height="10" rx="2" fill="#9B59B6"/>
+  <text x="375" y="294" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#888">Language + Translator</text>
+  <rect x="530" y="285" width="10" height="10" rx="2" fill="#FFBF3B"/>
+  <text x="545" y="294" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#888">Input</text>
+  <rect x="600" y="285" width="10" height="10" rx="2" fill="#8DC63F"/>
+  <text x="615" y="294" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#888">Output</text>
+
+  <!-- Tech901 badge -->
+  <text x="880" y="302" text-anchor="end" font-family="Source Sans 3, Calibri, sans-serif" font-size="8" fill="#555">Tech901 AI-102</text>
+</svg>

@@ -1,0 +1,120 @@
+{
+  "description": "Reference data showing what the instructor's CLU model is trained on. Students read this for context — it is not used by code directly.",
+  "project_name": "memphis-311-intents",
+  "note_on_intent_names": "The CLU model uses PascalCase intent names (ReportIssue, CheckStatus, GetInformation). This pipeline maps them to kebab-case (report-issue, check-status, ask-question) via _CLU_INTENT_MAP in main.py.",
+  "intent_mapping": {
+    "ReportIssue": "report-issue",
+    "CheckStatus": "check-status",
+    "GetInformation": "ask-question"
+  },
+  "intents": {
+    "report-issue": {
+      "description": "Citizen is reporting a new problem or complaint",
+      "examples": [
+        {
+          "text": "I want to report a pothole on Poplar Avenue near the school.",
+          "entities": [
+            {"entity": "Poplar Avenue", "category": "Location"},
+            {"entity": "pothole", "category": "IssueType"}
+          ]
+        },
+        {
+          "text": "There's a broken streetlight at the corner of Union and McLean.",
+          "entities": [
+            {"entity": "Union and McLean", "category": "Location"},
+            {"entity": "broken streetlight", "category": "IssueType"}
+          ]
+        },
+        {
+          "text": "Someone dumped trash behind the community center on Lamar Avenue.",
+          "entities": [
+            {"entity": "Lamar Avenue", "category": "Location"},
+            {"entity": "dumped trash", "category": "IssueType"}
+          ]
+        },
+        {
+          "text": "The water pressure is very low at my house on Walnut Grove Road.",
+          "entities": [
+            {"entity": "Walnut Grove Road", "category": "Location"},
+            {"entity": "low water pressure", "category": "IssueType"}
+          ]
+        },
+        {
+          "text": "I need to file a noise complaint about construction on Summer Avenue.",
+          "entities": [
+            {"entity": "Summer Avenue", "category": "Location"},
+            {"entity": "noise complaint", "category": "IssueType"}
+          ]
+        }
+      ]
+    },
+    "check-status": {
+      "description": "Citizen is asking about an existing complaint or request",
+      "examples": [
+        {
+          "text": "What's the status of my complaint from last week?",
+          "entities": []
+        },
+        {
+          "text": "Can you give me an update on case number 311-2025-044?",
+          "entities": [
+            {"entity": "311-2025-044", "category": "CaseNumber"}
+          ]
+        },
+        {
+          "text": "I reported a pothole two weeks ago and nothing has been done.",
+          "entities": [
+            {"entity": "pothole", "category": "IssueType"}
+          ]
+        },
+        {
+          "text": "Has anyone been assigned to fix the broken pipe on my street?",
+          "entities": [
+            {"entity": "broken pipe", "category": "IssueType"}
+          ]
+        },
+        {
+          "text": "I'm following up on my service request submitted on January 15th.",
+          "entities": [
+            {"entity": "January 15th", "category": "Date"}
+          ]
+        }
+      ]
+    },
+    "ask-question": {
+      "description": "Citizen is requesting general information or asking how something works",
+      "examples": [
+        {
+          "text": "Where can I find information about recycling pickup schedules?",
+          "entities": [
+            {"entity": "recycling pickup", "category": "ServiceType"}
+          ]
+        },
+        {
+          "text": "How do I apply for a building permit in Shelby County?",
+          "entities": [
+            {"entity": "building permit", "category": "ServiceType"}
+          ]
+        },
+        {
+          "text": "What are the hours for the public works office?",
+          "entities": [
+            {"entity": "public works office", "category": "Department"}
+          ]
+        },
+        {
+          "text": "Is there a fee for bulk trash pickup in Memphis?",
+          "entities": [
+            {"entity": "bulk trash pickup", "category": "ServiceType"}
+          ]
+        },
+        {
+          "text": "What number do I call to report a water main break after hours?",
+          "entities": [
+            {"entity": "water main break", "category": "IssueType"}
+          ]
+        }
+      ]
+    }
+  }
+}
