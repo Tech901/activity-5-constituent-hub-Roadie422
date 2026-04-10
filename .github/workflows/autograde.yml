@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
 
 env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   AZURE_AI_LANGUAGE_ENDPOINT: ${{ secrets.AZURE_AI_LANGUAGE_ENDPOINT }}
   AZURE_AI_LANGUAGE_KEY: ${{ secrets.AZURE_AI_LANGUAGE_KEY }}
   AZURE_TRANSLATOR_KEY: ${{ secrets.AZURE_TRANSLATOR_KEY }}
@@ -16,7 +17,7 @@ env:
 jobs:
   grade:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
@@ -26,6 +27,19 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
+
+      - name: Write .env file for autograder
+        shell: bash
+        run: |
+          {
+            echo "AZURE_AI_LANGUAGE_ENDPOINT=$AZURE_AI_LANGUAGE_ENDPOINT"
+            echo "AZURE_AI_LANGUAGE_KEY=$AZURE_AI_LANGUAGE_KEY"
+            echo "AZURE_TRANSLATOR_KEY=$AZURE_TRANSLATOR_KEY"
+            echo "AZURE_TRANSLATOR_REGION=$AZURE_TRANSLATOR_REGION"
+            echo "CLU_PROJECT_NAME=$CLU_PROJECT_NAME"
+            echo "CLU_DEPLOYMENT_NAME=$CLU_DEPLOYMENT_NAME"
+            echo "STUDENT_CORPUS_SEED=$STUDENT_CORPUS_SEED"
+          } > .env
 
       - name: Run student code
         run: python app/main.py
