@@ -36,3 +36,4 @@ Thumbs.db
 
 # Autograder (cloned during CI)
 .autograder/
+.history/
